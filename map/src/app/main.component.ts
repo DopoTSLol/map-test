@@ -30,10 +30,10 @@ export class MainComponent extends EzComponent {
     private yOffset : number = 0;
     //state of the boxes storage
 
-    private rowsNum: number = 50;
+    private rowsNum: number = 25;
     //width variables
 
-    private columnsNum: number = 50;
+    private columnsNum: number = 25;
     private prevColumns = this.columnsNum;
 
     constructor() {
@@ -93,17 +93,16 @@ export class MainComponent extends EzComponent {
             }
         }
 
-        for(let p =0; p<3; p++){
-            for (let i=0; i<y; i++){
-                for (let j=0; j<x; j++){
-                    this.colorValues[i+offsetY][j+offsetX] = this.mapGenValue(i, j);
-                    if(this.colorValues[i+offsetY][j+offsetX] > 5){
-                        this.colorValues[i+offsetY][j+offsetX] = 5;
-                    }
+        for (let i=0; i<y; i++){
+            for (let j=0; j<x; j++){
+                this.colorValues[i+offsetY][j+offsetX] = this.mapGenValue(i, j);
+                if(this.colorValues[i+offsetY][j+offsetX] > 5){
+                    this.colorValues[i+offsetY][j+offsetX] = 5;
                 }
-                this.rows[i].getRowValues(this.colorValues[i]);
             }
         }
+
+        this.updateDisplay();
 
     }
 
@@ -164,7 +163,7 @@ export class MainComponent extends EzComponent {
                     break;
                 
                 default:
-                    return Math.floor(Math.random()*10);
+                    return Math.floor(Math.random()*18);
             }
         } else if (roll === 6 || roll === 7 || roll === 8){
             if(y+1 < this.colorValues.length){
@@ -194,6 +193,28 @@ export class MainComponent extends EzComponent {
         } else {
             return 0;
         }
+    }
+
+    @Click("buttX")
+    increaseX(){
+        for(let i=0; i<this.colorValues.length; i++){
+            this.colorValues[i].push(this.mapGenValue(i, this.colorValues[i].length));
+        }
+
+        this.xOffset+= 1;
+        this.updateDisplay();
+    }
+
+    updateDisplay(){
+        let count : number = 0;
+        for(let i=this.yOffset; count<this.colorValues.length - this.yOffset; i++, count++){
+            this.rows[i].getRowValues(this.colorValues[i].slice(this.xOffset));
+        }        
+    }
+
+    @Timer(50)
+    update(){
+        this.increaseX();
     }
 
     /**

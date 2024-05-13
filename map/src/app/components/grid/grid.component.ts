@@ -52,23 +52,23 @@ export class GridComponent extends EzComponent {
 
         switch(newColor){
             case 0:
-                this.bgColor = "#36d150";//grass
+                this.bgColor = "lime";//grass
                 break;
 
             case 1:
-                this.bgColor = "#004a02";//forest
+                this.bgColor = "green";//forest
                 break;
             case 2:
-                this.bgColor = "#e8e4a0";//desert
+                this.bgColor = "yellow";//desert
                 break;
             case 3:
-                this.bgColor = "#3d4045";//mountains
+                this.bgColor = "gray";//mountains
                 break;
             case 4:
-                this.bgColor = "#d7dbe0";//tundra
+                this.bgColor = "white";//tundra
                 break;
             case 5:
-                this.bgColor = "#0c20b3";//sea
+                this.bgColor = "blue";//sea
                 break;
         }
     }
