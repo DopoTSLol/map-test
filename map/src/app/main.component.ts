@@ -26,12 +26,14 @@ export class MainComponent extends EzComponent {
     //row information
 
     private colorValues: number[][] = [];
+    private xOffset : number = 0;
+    private yOffset : number = 0;
     //state of the boxes storage
 
-    private rowsNum: number = 70;
+    private rowsNum: number = 50;
     //width variables
 
-    private columnsNum: number = 70;
+    private columnsNum: number = 50;
     private prevColumns = this.columnsNum;
 
     constructor() {
@@ -77,24 +79,27 @@ export class MainComponent extends EzComponent {
             this.colorValues.push(this.rows[i].giveRowValues());
         }
 
-        this.mapGen();
+        this.mapGen(this.colorValues.length, this.colorValues[0].length, 0, 0);
     }
 
-    mapGen(){
-        for (let i=0; i< this.colorValues.length; i++){
-            for (let j=0; j<this.colorValues[i].length; j++){
-                this.colorValues[i][j] = Math.floor(Math.random()*8);
-                if(this.colorValues[i][j] > 5){
-                    this.colorValues[i][j] = 5;
+    mapGen(y: number, x : number, offsetY: number, offsetX: number){
+        for (let i=0; i<y; i++){
+            for (let j=0; j<x; j++){
+                this.colorValues[i+offsetY][j+offsetX] = Math.floor(Math.random()*8);
+                if(this.colorValues[i+offsetY][j+offsetX] > 5){
+                    this.colorValues[i+offsetY][j+offsetX] = 5;
                 }
                 //this.colorValues[i][j] = this.colorChances[Math.floor(Math.random() * this.colorChances.length)];
             }
         }
 
-        for(let p =0; p<10; p++){
-            for (let i=0; i< this.colorValues.length; i++){
-                for (let j=0; j<this.colorValues[i].length; j++){
-                    this.colorValues[i][j] = this.mapGenValue(i, j);
+        for(let p =0; p<3; p++){
+            for (let i=0; i<y; i++){
+                for (let j=0; j<x; j++){
+                    this.colorValues[i+offsetY][j+offsetX] = this.mapGenValue(i, j);
+                    if(this.colorValues[i+offsetY][j+offsetX] > 5){
+                        this.colorValues[i+offsetY][j+offsetX] = 5;
+                    }
                 }
                 this.rows[i].getRowValues(this.colorValues[i]);
             }
@@ -159,7 +164,7 @@ export class MainComponent extends EzComponent {
                     break;
                 
                 default:
-                    return this.colorValues[y][x];
+                    return Math.floor(Math.random()*10);
             }
         } else if (roll === 6 || roll === 7 || roll === 8){
             if(y+1 < this.colorValues.length){
