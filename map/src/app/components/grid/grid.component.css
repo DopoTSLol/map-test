@@ -1,0 +1,6 @@
+#grid {
+    width: 5px;
+    height: 5px;
+    background-color: rgb(255, 0, 0);
+    display: flex;
+}
